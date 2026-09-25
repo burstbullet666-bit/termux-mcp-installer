@@ -1,0 +1,20 @@
+# Ignore logs, token, dan file sementara
+logs/
+tmp/
+*.pid
+*.log
+*.deb
+
+# Config sensitif — jangan pernah commit token!
+.env
+config.local.sh
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db

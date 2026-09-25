@@ -1,0 +1,33 @@
+# ============================================================
+#  resources.txt — Daftar dependencies untuk Termux MCP
+#
+#  Format:
+#    TYPE|NAME|URL
+#
+#  TYPE:
+#    pkg    → install via Termux pkg
+#    pip    → install via pip
+#    deb    → download .deb dan install via dpkg
+#    binary → download binary langsung ke $PREFIX/bin
+#
+#  Installer akan membaca file ini dan install satu per satu.
+# ============================================================
+
+# ─── Termux packages ────────────────────────────────────────
+pkg|python|
+pkg|curl|
+pkg|jq|
+pkg|git|
+pkg|openssl|
+pkg|lsof|
+
+# ─── GitHub CLI (untuk push repo) ───────────────────────────
+pkg|gh|
+
+# ─── Cloudflare Tunnel ──────────────────────────────────────
+# cloudflared diinstall via pkg jika tersedia,
+# fallback ke binary download di install.sh
+pkg|cloudflared|
+
+# ─── Python packages ────────────────────────────────────────
+pip|requests|
