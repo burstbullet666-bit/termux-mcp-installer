@@ -233,8 +233,7 @@ fi
 sep
 info "Menjalankan Cloudflare Tunnel ..."
 
-nohup cloudflared tunnel run \
-    --token-file "$CF_TOKEN_FILE" \
+nohup cloudflared --config "$HOME/.cloudflared/config.yml" tunnel run \
     >> "$CF_LOG" 2>&1 &
 
 CF_PID=$!
@@ -267,34 +266,7 @@ fi
 CONN_COUNT=$(grep -c "Registered tunnel connection" "$CF_LOG" 2>/dev/null || echo "0")
 ok "Cloudflare tunnel  : $CONN_COUNT koneksi (PID $CF_PID)"
 
-# ─── 4. Start MT Manager Tunnel ─────────────────────────────
-sep
-info "Menjalankan MT Manager tunnel (:$MT_PORT → $MT_PUBLIC_URL) ..."
-
-if [ ! -f "$CF_MT_SCRIPT" ]; then
-    warn "cf.py tidak ditemukan di $CF_MT_SCRIPT — skip MT tunnel"
-else
-    nohup python3 "$CF_MT_SCRIPT" >> "$MT_LOG" 2>&1 &
-    MT_PID=$!
-    echo "$MT_PID" > "$MT_PID_FILE"
-
-    MT_READY=0
-    for i in $(seq 1 30); do
-        if grep -q "Registered tunnel connection\|ONLINE\|REGISTERED" "$MT_LOG" 2>/dev/null; then
-            MT_READY=1; break
-        fi
-        kill -0 "$MT_PID" 2>/dev/null || { fail "MT tunnel crash!"; tail -10 "$MT_LOG"; break; }
-        sleep 1
-    done
-
-    if [ "$MT_READY" = "1" ]; then
-        ok "MT Manager tunnel : ONLINE (PID $MT_PID)"
-    else
-        warn "MT Manager tunnel : belum registered (PID $MT_PID) — lanjut..."
-    fi
-fi
-
-# ─── 5. Test public endpoint ─────────────────────────────────
+# ─── 4. Test public endpoint ─────────────────────────────────
 
 sep
 info "Menguji public endpoint ..."
