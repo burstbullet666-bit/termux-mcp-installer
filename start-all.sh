@@ -35,7 +35,7 @@ CF_MT_SCRIPT="$BASE/cf.py"
 MT_PID_FILE="$BASE/mt.pid"
 MT_LOG="$LOG_DIR/mt.log"
 MT_PORT=9876
-MT_PUBLIC_URL="https://mcp.sinchannexter.my.id"
+MT_PUBLIC_URL="https://mt.dirgantarasiapmaba.my.id"
 
 MCP_PORT=8082
 OAUTH_PORT=8081

@@ -46,17 +46,15 @@ from datetime import datetime
 #                         CONFIG
 # ============================================================
 
-TUNNEL_NAME = "mt-mcp"
+TUNNEL_NAME = "82e074f2-c1a4-4598-81de-67ea85bc5255"
 
 TARGET_URL = "http://127.0.0.1:9876"
 
-PUBLIC_HOSTNAME = "mcp.sinchannexter.my.id"
+PUBLIC_HOSTNAME = "mt.dirgantarasiapmaba.my.id"
 PUBLIC_URL = f"https://{PUBLIC_HOSTNAME}"
 MCP_URL = f"{PUBLIC_URL}/mcp"
 
-CONFIG_FILE = os.path.expanduser(
-    "~/.cloudflared/config.yml"
-)
+CONFIG_FILE = os.path.expanduser("~/.cloudflared/config.yml")
 
 CLOUDFLARED_COMMAND = [
     "cloudflared",
