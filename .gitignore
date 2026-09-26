@@ -3,7 +3,6 @@ logs/
 tmp/
 *.pid
 *.log
-*.deb
 
 # Config sensitif — jangan pernah commit token!
 .env

@@ -126,19 +126,21 @@ info "Menginstall termux-native-mcp..."
 if command -v termux-native-mcp &>/dev/null; then
     ok "termux-native-mcp sudah terinstall"
 else
-    # Coba via pip dulu
-    pip install termux-native-mcp -q --break-system-packages 2>/dev/null && \
-        ok "termux-native-mcp installed via pip" || \
-        warn "pip gagal, coba via deb package..."
+    # Install dari .deb yang disertakan di repo
+    DEB_FILE="$REPO_DIR/termux-mcp_0.11.5_all.deb"
+    if [ -f "$DEB_FILE" ]; then
+        info "  Install dari paket lokal..."
+        dpkg -i "$DEB_FILE" 2>/dev/null && \
+            ok "termux-native-mcp installed via local deb" || \
+            warn "dpkg gagal, coba pip..."
+    fi
 
-    # Fallback ke .deb jika ada
+    # Fallback pip jika dpkg gagal
     if ! command -v termux-native-mcp &>/dev/null; then
-        DEB_URL="https://github.com/dirgantara/termux-native-mcp/releases/latest/download/termux-native-mcp.deb"
-        DEB_FILE="$TMP_DIR/termux-native-mcp.deb"
-        curl -fsSL "$DEB_URL" -o "$DEB_FILE" 2>/dev/null && \
-            dpkg -i "$DEB_FILE" 2>/dev/null && \
-            ok "termux-native-mcp installed via deb" || \
-            warn "termux-native-mcp gagal install — install manual nanti"
+        info "  Mencoba via pip..."
+        pip install termux-native-mcp -q --break-system-packages 2>/dev/null && \
+            ok "termux-native-mcp installed via pip" || \
+            fail "termux-native-mcp gagal install! Coba manual: dpkg -i termux-mcp_0.11.5_all.deb"
     fi
 fi
 
