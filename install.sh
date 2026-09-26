@@ -126,21 +126,14 @@ info "Menginstall termux-native-mcp..."
 if command -v termux-native-mcp &>/dev/null; then
     ok "termux-native-mcp sudah terinstall"
 else
-    # Install dari .deb yang disertakan di repo
-    DEB_FILE="$REPO_DIR/termux-mcp_0.11.5_all.deb"
-    if [ -f "$DEB_FILE" ]; then
-        info "  Install dari paket lokal..."
-        dpkg -i "$DEB_FILE" 2>/dev/null && \
-            ok "termux-native-mcp installed via local deb" || \
-            warn "dpkg gagal, coba pip..."
-    fi
-
-    # Fallback pip jika dpkg gagal
-    if ! command -v termux-native-mcp &>/dev/null; then
-        info "  Mencoba via pip..."
-        pip install termux-native-mcp -q --break-system-packages 2>/dev/null && \
-            ok "termux-native-mcp installed via pip" || \
-            fail "termux-native-mcp gagal install! Coba manual: dpkg -i termux-mcp_0.11.5_all.deb"
+    # Install via script fix (extract manual, cocok untuk semua Termux)
+    if [ -f "$REPO_DIR/install-mcp-bin.sh" ]; then
+        info "  Install via extract manual..."
+        bash "$REPO_DIR/install-mcp-bin.sh" && \
+            ok "termux-native-mcp installed!" || \
+            fail "termux-native-mcp gagal install!"
+    else
+        fail "install-mcp-bin.sh tidak ditemukan di $REPO_DIR"
     fi
 fi
 
