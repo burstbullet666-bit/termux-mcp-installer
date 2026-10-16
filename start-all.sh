@@ -80,7 +80,7 @@ if [ ! -s "$MCP_TOKEN_FILE" ]; then
     fail "MCP token tidak ditemukan: $MCP_TOKEN_FILE"
     exit 1
 fi
-ok "MCP token          : $(head -c8 "$MCP_TOKEN_FILE")..."
+ok "MCP token          : $(cat "$MCP_TOKEN_FILE")"
 
 if [ ! -s "$CF_TOKEN_FILE" ]; then
     fail "Cloudflare token tidak ditemukan: $CF_TOKEN_FILE"
@@ -233,7 +233,8 @@ fi
 sep
 info "Menjalankan Cloudflare Tunnel ..."
 
-nohup cloudflared --config "$HOME/.cloudflared/config.yml" tunnel run \
+nohup cloudflared tunnel run \
+    --token-file "$CF_TOKEN_FILE" \
     >> "$CF_LOG" 2>&1 &
 
 CF_PID=$!
